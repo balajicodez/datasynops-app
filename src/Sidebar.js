@@ -10,7 +10,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <Link to="/dashboard">Home</Link>
         </li>
         <li>
-          <Link to="/upload" >Upload/Schedule a run</Link>
+          <Link to="/upload" >Upload</Link>
         </li>
         <li>
           <Link to="/reports">Reports</Link>

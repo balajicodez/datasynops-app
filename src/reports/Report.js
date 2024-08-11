@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './../Sidebar';
 import { APP_SERVER_URL_PREFIX } from "./../constants.js";
 import LoadSpinner from './../LoadSpinner';
+import './../App.css';
 
 function Report() {
 
@@ -34,17 +35,14 @@ function Report() {
                 <table align="left">
                     <tr>
                         <th>Job Name</th>
-                        <th>Created By</th>
+                        <th>Description</th>                       
                         <th>Job Status</th>
                     </tr>
                     {tableData.map((val, key) => {
                         return (
                             <tr key={key}>
                                 <td>{val.jobName}</td>
-                                <td>{val.createdBy}</td>
-                                <td>{val.totalCount}</td>
-                                <td>{val.campaignGeneratedCount}</td>
-                                <td>{val.canvasCompletedCount}</td>
+                                <td>{val.description}</td>
                                 <td>{val.status}</td>
                                 <td>
                                     <button class="button" >

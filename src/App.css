@@ -20,8 +20,12 @@
 
 .td, th {
   border: 0px solid #dddddd;
-  text-align: left;
+  text-align: center;
   padding: 8px;
+}
+
+.tr:nth-child(even) {
+  background-color: #dddddd;
 }
 
 .button {
@@ -33,6 +37,7 @@
   text-decoration: none;
   display: inline-block;
   font-size: 14px;
+  border-radius: 4px;
 }
 
 .button login {
@@ -49,7 +54,7 @@
 /* Spinner.css */
 .loader {
   position: absolute;
-  left: 50%;
+  left: 60%;
   top: 50%;
   z-index: 1;
   width: 60px;
