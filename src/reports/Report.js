@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './../Sidebar';
 import { APP_SERVER_URL_PREFIX } from "./../constants.js";
 import LoadSpinner from './../LoadSpinner';
@@ -6,6 +7,7 @@ import './../App.css';
 
 function Report() {
 
+    const history = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [tableData, setTableData] = useState([]);
@@ -25,19 +27,23 @@ function Report() {
         getApiData();
       }, []);
 
+    const openJobDetail = (jobId) => {
+        history('/jobdetail', {state: {jobId:jobId}});
+    }
+        
     return (
         <div>
             <Sidebar isOpen={true} />
             {loading ? <LoadSpinner /> :  
             <div className={`content ${true ? 'shifted' : ''}`}>
-                <h1>Reports</h1>
+                <h1>Job History</h1>
                 <hr />
-                <table align="left">
+                <table >
                     <tr>
                         <th>Job Name</th>
                         <th>Description</th>                       
                         <th>Job Status</th>
-                    </tr>
+                    </tr>                    
                     {tableData.map((val, key) => {
                         return (
                             <tr key={key}>
@@ -45,8 +51,8 @@ function Report() {
                                 <td>{val.description}</td>
                                 <td>{val.status}</td>
                                 <td>
-                                    <button class="button" >
-                                        Run Job
+                                    <button class="button" onClick={()=>openJobDetail(val.id)} >
+                                        View
                                     </button>
                                 </td>                               
                             </tr>

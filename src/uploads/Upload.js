@@ -59,7 +59,7 @@ const Upload = () => {
 
       const responseData = await response.json();
       console.log("POST request successful:", responseData.id);
-      jobId = responseData.jobName+'_'+responseData.id;
+      jobId = responseData.jobName + '_' + responseData.id;
       setLoading(false);
       // Add any further actions after successful submission
     } catch (error) {
@@ -98,10 +98,10 @@ const Upload = () => {
       <div>
         <Sidebar isOpen={true} />
       </div>
-      {loading ? <LoadSpinner /> :  
-      <div className={`content ${true ? 'shifted' : ''}`} >
-        <h1> Upload Survey Data </h1>
-        <hr />       
+      {loading ? <LoadSpinner /> :
+        <div className={`content ${true ? 'shifted' : ''}`} >
+          <h1> MR Upload - Create a new Job </h1>
+          <hr />
           <form onSubmit={handleFormSubmit}>
             <table align="left">
               <tr>
@@ -113,7 +113,7 @@ const Upload = () => {
                     value={formData.jobName}
                     onChange={handleInputChange}
                     size="53"
-                    required 
+                    required
                   />
                 </th>
               </tr>
@@ -129,21 +129,19 @@ const Upload = () => {
                 </th>
               </tr>
               <tr>
-                <th>Excel Upload</th>
+                <th>Run Configuration</th>
                 <th>
-                  <input
-                    type="file"
-                    onChange={handleFileChange}
-                    accept=".xls,.xlsx,.csv"
-                    //required
-                  />
-                  <button onClick={handleExcelUpload}>Upload</button>
+                  <select name="runconf" id="runconf">
+                    <option value="confirmit">confirmit</option>
+                    <option value="decipher">decipher</option>
+                    <option value="cmix">cmix</option>
+                  </select>
                 </th>
-              </tr>
-              <tr><button  class="button" type="submit">Submit</button></tr>
+              </tr>              
+              <tr><button class="button" type="submit">Create Job</button></tr>
             </table>
-          </form>       
-      </div> }
+          </form>
+        </div>}
     </div>
   );
 };

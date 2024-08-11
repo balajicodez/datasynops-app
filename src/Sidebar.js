@@ -10,13 +10,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <Link to="/dashboard">Home</Link>
         </li>
         <li>
-          <Link to="/upload" >Upload</Link>
+          <Link to="/upload" >New Job</Link>
         </li>
         <li>
-          <Link to="/reports">Reports</Link>
+          <Link to="/reports">Job History</Link>
         </li>
         <li>
-          <Link to="/download">Download</Link>
+          <Link to="/download">Downloads</Link>
         </li>      
         <li>
           <Link to="/about">About DataSynOps</Link>

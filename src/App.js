@@ -6,6 +6,7 @@ import Upload from './uploads/Upload';
 import Download from './download/Download';
 import About from './About';
 import Report from './reports/Report';
+import JobDetail from './jobdetail/JobDetail';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/reports" element={<Report />} />
         <Route path="/download" element={<Download />} />
         <Route path="/about" element={<About />} />
+        <Route path="/jobdetail" element={<JobDetail />} />
         <Route path="/logout" element={<Login />} />
       </Routes>
     </Router>
