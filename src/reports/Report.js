@@ -25,6 +25,7 @@ function Report() {
 
     useEffect(() => {
         getApiData();
+        console.log(' in useeffect');
       }, []);
 
     const openJobDetail = (jobId) => {
