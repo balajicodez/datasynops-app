@@ -34,9 +34,9 @@ function JobDetail() {
 
         Array.from(selectedFile).forEach((file, index) => {
             formData.append('file', file); // Use 'files[]' if server expects an array of files
-          });
+        });
 
-       
+
         const url = APP_SERVER_URL_PREFIX + "/jobs/file-uploads/" + jobId;
         axios
             .post(url, formData, {
@@ -54,23 +54,19 @@ function JobDetail() {
             });
     };
 
-    console.log(' before useeffect');
+
     useEffect(() => {
-        console.log(' in useeffect');
         setLoading(true);
         fetch(APP_SERVER_URL_PREFIX + "/jobs/" + jobId)
             .then(
                 (response) => response.json()
             )
             .then((json) => {
-                console.log(json);
                 setTableData(json);
                 setLoading(false);
             });
-        console.log(' after useeffect');
     }, []);
 
-    console.log(' out useeffect');
     return (
         <div>
             <Sidebar isOpen={true} />
@@ -78,6 +74,26 @@ function JobDetail() {
                 <div className={`content ${true ? 'shifted' : ''}`}>
                     <h1>Job Detail</h1>
                     <hr />
+                    <div>
+                    {
+                    tableData? (
+                        <div>
+                    <h3>Job Name</h3>
+                    <p>{tableData.jobName}</p>
+                    <h3>Job Description</h3>
+                    <p>{tableData.description}</p>
+                    <h3>Job Status</h3>
+                    <p>{tableData.status}</p>
+                    <h3>Created At</h3>
+                    <p>{tableData.startedAt}</p>
+                    <h3>Created By</h3>
+                    <p>{tableData.createdBy}</p> 
+                    <h3>Platform</h3>
+                    <p>{tableData.platform}</p> 
+                     </div>
+                    ) :<div/>
+                   }
+                    </div>
                    
                     <table>
                         <tr>
