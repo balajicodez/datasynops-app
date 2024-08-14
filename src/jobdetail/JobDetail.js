@@ -12,13 +12,13 @@ function JobDetail() {
     const [loading, setLoading] = useState(false);
     const [tableData, setTableData] = useState(null);
 
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState([]);
     const { state } = useLocation();
     const { jobId } = state;
 
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files;
         console.log(file);
         setSelectedFile(file);
         // setFormData({ ...formData, [selectedFile]: file });
@@ -31,7 +31,12 @@ function JobDetail() {
         }
 
         const formData = new FormData();
-        formData.append("file", selectedFile);
+
+        Array.from(selectedFile).forEach((file, index) => {
+            formData.append('file', file); // Use 'files[]' if server expects an array of files
+          });
+
+       
         const url = APP_SERVER_URL_PREFIX + "/jobs/file-uploads/" + jobId;
         axios
             .post(url, formData, {
@@ -73,51 +78,16 @@ function JobDetail() {
                 <div className={`content ${true ? 'shifted' : ''}`}>
                     <h1>Job Detail</h1>
                     <hr />
-                    <table>
-                        <tr> <td>
-                            <h3>Job Name</h3>
-                            <p>{tableData.jobName}</p>
-                        </td> <td>
-                                <h3>Job Description</h3>
-                                <p>{tableData.description}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h3>Job Status</h3>
-                                <p>{tableData.status}</p>
-                            </td>
-                            <td>
-                                <h3>Created At</h3>
-                                <p>{tableData.startedAt}</p>
-                            </td>
-                            <td>  
-                                <h3>Created By</h3>
-                                <p>XXXX</p>
-                            </td>
-                        </tr>
-                    </table>
+                   
                     <table>
                         <tr>
-                            <th>Upload Schema</th>
+                            <th>Upload </th>
                             <th>
                                 <input
                                     type="file"
                                     onChange={handleFileChange}
-                                    accept=".xls,.xlsx,.csv"                               
-                                />
-                                <button class="button" onClick={handleExcelUpload}>Upload</button>
-                            </th>
-                        </tr>
-                    </table>
-                    <table>
-                        <tr>
-                            <th>Upload Data</th>
-                            <th>
-                                <input
-                                    type="file"
-                                    onChange={handleFileChange}
-                                    accept=".xls,.xlsx,.csv"                               
+                                    accept=".xls,.xlsx,.csv,.txt"
+                                    multiple
                                 />
                                 <button class="button" onClick={handleExcelUpload}>Upload</button>
                             </th>

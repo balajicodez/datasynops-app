@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -11,6 +12,8 @@ import axios from "axios";
 var jobId;
 
 const Upload = () => {
+  const history = useNavigate();
+
   const [textInput, setTextInput] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -32,11 +35,12 @@ const Upload = () => {
     jobName: "",
     createdBy: "",
     optionalTextString: "",
-    id: -1
+    id: -1,
+    platform: "",
     // ... other fields
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e) => {   
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -66,6 +70,7 @@ const Upload = () => {
       setLoading(false);
       console.error("Error making POST request:", error.message);
     }
+    history('/reports');
   };
 
   const handleExcelUpload = () => {
@@ -131,7 +136,8 @@ const Upload = () => {
               <tr>
                 <th>Run Configuration</th>
                 <th>
-                  <select name="runconf" id="runconf">
+                  <select name="platform" id="platform" onChange={handleInputChange} required>
+                    <option value="" selected disabled>Select a platform</option>
                     <option value="confirmit">confirmit</option>
                     <option value="decipher">decipher</option>
                     <option value="cmix">cmix</option>
