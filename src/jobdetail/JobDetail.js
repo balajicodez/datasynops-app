@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 import axios from 'axios';
 import LoadSpinner from './../LoadSpinner';
@@ -11,7 +12,7 @@ function JobDetail() {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [tableData, setTableData] = useState(null);
-
+    const history = useNavigate();
     const [selectedFile, setSelectedFile] = useState([]);
     const { state } = useLocation();
     const { jobId } = state;
@@ -57,6 +58,33 @@ function JobDetail() {
             });
     };
 
+    const viewReport = async (jobId) => {
+        history('/reportgen' , { state: { jobId: jobId } })
+       /*  setLoading(true);
+        try {
+            const response = await fetch(APP_SERVER_URL_PREFIX + "/jobs/report/" + jobId, {
+                method: "GET",
+                body: JSON.stringify(tableData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            console.log("POST request successful:", responseData.id);
+            jobId = responseData.jobName + '_' + responseData.id;
+            setLoading(false);
+            // Add any further actions after successful submission
+        } catch (error) {
+            setLoading(false);
+            console.error("Error making PUT request:", error.message);
+        }
+        const response = await fetch(APP_SERVER_URL_PREFIX + "/jobs").then(
+            (response) => response.json()
+        );
+        setTableData(response);    */     
+    }
 
     useEffect(() => {
         setLoading(true);
@@ -86,13 +114,13 @@ function JobDetail() {
                                             <td>
                                                 <h3>Job Name</h3>
                                                 <p>{tableData.jobName}</p>
-                                            </td> 
-                                                <td />
+                                            </td>
+                                            <td />
                                             <td>
                                                 <h3>Job Description</h3>
                                                 <p>{tableData.description}</p>
                                             </td>
-                                               <td />
+                                            <td />
                                             <td>
                                                 <h3>Job Status</h3>
                                                 <p>{tableData.status}</p>
@@ -103,7 +131,7 @@ function JobDetail() {
                                                 <h3>Created At</h3>
                                                 <p>{tableData.startedAt}</p>
                                             </td>
-                                             <td />
+                                            <td />
                                             <td>
                                                 <h3>Created By</h3>
                                                 <p>{tableData.createdBy}</p>
@@ -113,6 +141,15 @@ function JobDetail() {
                                                 <h3>Platform</h3>
                                                 <p>{tableData.platform}</p>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            {
+                                                tableData.status === 'RUN_COMPLETED' ? (
+                                                    <button class="button" onClick={() => viewReport(tableData.id)} >
+                                                        View Generated Report 
+                                                    </button>) : (<div />
+                                                )
+                                            }
                                         </tr>
                                     </table>
                                 </div>
@@ -129,7 +166,7 @@ function JobDetail() {
                                     onChange={handleFileChange}
                                     accept=".xls,.xlsx,.csv,.txt"
                                     multiple
-                                />                               
+                                />
                                 <button class="button" onClick={handleExcelUpload}>Upload</button>
                             </th>
                         </tr>
