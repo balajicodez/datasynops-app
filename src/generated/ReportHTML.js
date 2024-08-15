@@ -15,21 +15,21 @@ function ReportHTML() {
 
         fetch(s3Url)
             .then(response => response.text())
-            .then(data => setHtmlContent(data))
-            .catch(error => console.error('Error fetching HTML:', error));
-        setLoading(false);
+            .then(data => {setHtmlContent(data); setLoading(false);})
+            .catch(error => { setLoading(false); console.error('Error fetching HTML:', error)});
+      //  setLoading(false);
     }, []);
 
     return (
         <div>
             <Sidebar isOpen={true} />
-            <div className={`content ${true ? 'shifted' : ''}`}>
+            {loading ? <LoadSpinner /> : <div className={`content ${true ? 'shifted' : ''}`}>
                 <div>
                     < div dangerouslySetInnerHTML={{ __html: htmlContent }
                     } />
                 </div>
 
-            </div>
+            </div>}
         </div>
     );
 }
