@@ -30,6 +30,7 @@ function JobDetail() {
             return;
         }
 
+        setLoading(true);
         const formData = new FormData();
 
         Array.from(selectedFile).forEach((file, index) => {
@@ -46,9 +47,11 @@ function JobDetail() {
             })
             .then((response) => {
                 console.log(response.data);
+                setLoading(false);
                 // Handle success, e.g., show a success message to the user
             })
             .catch((error) => {
+                setLoading(false);
                 console.error("Error uploading file:", error);
                 // Handle error, e.g., show an error message to the user
             });
@@ -75,26 +78,48 @@ function JobDetail() {
                     <h1>Job Detail</h1>
                     <hr />
                     <div>
-                    {
-                    tableData? (
-                        <div>
-                    <h3>Job Name</h3>
-                    <p>{tableData.jobName}</p>
-                    <h3>Job Description</h3>
-                    <p>{tableData.description}</p>
-                    <h3>Job Status</h3>
-                    <p>{tableData.status}</p>
-                    <h3>Created At</h3>
-                    <p>{tableData.startedAt}</p>
-                    <h3>Created By</h3>
-                    <p>{tableData.createdBy}</p> 
-                    <h3>Platform</h3>
-                    <p>{tableData.platform}</p> 
-                     </div>
-                    ) :<div/>
-                   }
+                        {
+                            tableData ? (
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <h3>Job Name</h3>
+                                                <p>{tableData.jobName}</p>
+                                            </td> 
+                                                <td />
+                                            <td>
+                                                <h3>Job Description</h3>
+                                                <p>{tableData.description}</p>
+                                            </td>
+                                               <td />
+                                            <td>
+                                                <h3>Job Status</h3>
+                                                <p>{tableData.status}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h3>Created At</h3>
+                                                <p>{tableData.startedAt}</p>
+                                            </td>
+                                             <td />
+                                            <td>
+                                                <h3>Created By</h3>
+                                                <p>{tableData.createdBy}</p>
+                                            </td>
+                                            <td />
+                                            <td>
+                                                <h3>Platform</h3>
+                                                <p>{tableData.platform}</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            ) : <div />
+                        }
                     </div>
-                   
+                    <hr />
                     <table>
                         <tr>
                             <th>Upload </th>
@@ -104,13 +129,13 @@ function JobDetail() {
                                     onChange={handleFileChange}
                                     accept=".xls,.xlsx,.csv,.txt"
                                     multiple
-                                />
+                                />                               
                                 <button class="button" onClick={handleExcelUpload}>Upload</button>
                             </th>
                         </tr>
                     </table>
-                </div>}
-        </div>
+                </div >}
+        </div >
     );
 }
 export default JobDetail;

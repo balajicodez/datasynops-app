@@ -37,6 +37,7 @@ const Upload = () => {
     optionalTextString: "",
     id: -1,
     platform: "",
+    dataFileName: ""
     // ... other fields
   });
 
@@ -129,6 +130,19 @@ const Upload = () => {
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
+                    required
+                  />
+                </th>
+              </tr>
+              <tr>
+                <th>Data File Name</th>
+                <th>
+                  <input
+                    type="text"
+                    name="dataFileName"
+                    value={formData.dataFileName}
+                    onChange={handleInputChange}
+                    size="53"                 
                     required
                   />
                 </th>
