@@ -48,10 +48,12 @@ function JobDetail() {
             })
             .then((response) => {
                 console.log(response.data);
+                refreshJobDetail(jobId);
                 setLoading(false);
                 // Handle success, e.g., show a success message to the user
             })
             .catch((error) => {
+                refreshJobDetail(jobId);
                 setLoading(false);
                 console.error("Error uploading file:", error);
                 // Handle error, e.g., show an error message to the user
@@ -59,11 +61,38 @@ function JobDetail() {
     };
 
     const viewReport = async (jobId) => {
-        history('/reportgen' , { state: { jobId: jobId } })
-       /*  setLoading(true);
+        history('/reportgen', { state: { jobId: jobId } })
+        /*  setLoading(true);
+         try {
+             const response = await fetch(APP_SERVER_URL_PREFIX + "/jobs/report/" + jobId, {
+                 method: "GET",
+                 body: JSON.stringify(tableData)
+             });
+ 
+             if (!response.ok) {
+                 throw new Error(`HTTP error! Status: ${response.status}`);
+             }
+ 
+             const responseData = await response.json();
+             console.log("POST request successful:", responseData.id);
+             jobId = responseData.jobName + '_' + responseData.id;
+             setLoading(false);
+             // Add any further actions after successful submission
+         } catch (error) {
+             setLoading(false);
+             console.error("Error making PUT request:", error.message);
+         }
+         const response = await fetch(APP_SERVER_URL_PREFIX + "/jobs").then(
+             (response) => response.json()
+         );
+         setTableData(response);    */
+    }
+
+    const generateSchema = async (jobId) => {
+        setLoading(true);
         try {
-            const response = await fetch(APP_SERVER_URL_PREFIX + "/jobs/report/" + jobId, {
-                method: "GET",
+            const response = await fetch(APP_SERVER_URL_PREFIX + "/jobs/generate/" + jobId, {
+                method: "PUT",
                 body: JSON.stringify(tableData)
             });
 
@@ -74,20 +103,51 @@ function JobDetail() {
             const responseData = await response.json();
             console.log("POST request successful:", responseData.id);
             jobId = responseData.jobName + '_' + responseData.id;
+            refreshJobDetail(responseData.id);
             setLoading(false);
             // Add any further actions after successful submission
         } catch (error) {
+            refreshJobDetail(jobId);
             setLoading(false);
             console.error("Error making PUT request:", error.message);
         }
-        const response = await fetch(APP_SERVER_URL_PREFIX + "/jobs").then(
-            (response) => response.json()
-        );
-        setTableData(response);    */     
+    }
+
+    const runSchema = async (jobId) => {
+        setLoading(true);
+        try {
+            const response = await fetch(APP_SERVER_URL_PREFIX + "/jobs/run/" + jobId, {
+                method: "PUT",
+                body: JSON.stringify(tableData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            console.log("POST request successful:", responseData.id);
+            jobId = responseData.jobName + '_' + responseData.id;
+            refreshJobDetail(responseData.id);
+            setLoading(false);
+            // Add any further actions after successful submission
+        } catch (error) {
+            refreshJobDetail(jobId);
+            setLoading(false);
+            console.error("Error making PUT request:", error.message);
+        }
+    }
+
+    const editSchema = async (jobId) => {
+        history('/schemaeditor', { state: { jobId: jobId } })
     }
 
     useEffect(() => {
         setLoading(true);
+        refreshJobDetail(jobId);
+    }, []);
+
+    const refreshJobDetail = (jobId) => {
         fetch(APP_SERVER_URL_PREFIX + "/jobs/" + jobId)
             .then(
                 (response) => response.json()
@@ -96,7 +156,7 @@ function JobDetail() {
                 setTableData(json);
                 setLoading(false);
             });
-    }, []);
+    }
 
     return (
         <div>
@@ -143,11 +203,30 @@ function JobDetail() {
                                             </td>
                                         </tr>
                                         <tr>
+                                        <hr />
+                                        </tr>
+                                        <tr>
                                             {
-                                                tableData.status === 'RUN_COMPLETED' ? (
-                                                    <button class="button" onClick={() => viewReport(tableData.id)} >
-                                                        View Generated Report 
-                                                    </button>) : (<div />
+                                                tableData.status === 'DATA_UPLOADED' ? (
+                                                    <button class="button" onClick={() => generateSchema(tableData.id)} >
+                                                        Generate
+                                                    </button>) : (
+                                                    tableData.status === 'SCHEMA_GENERATED' ? (
+                                                        <button class="button" onClick={() => runSchema(tableData.id)} >
+                                                            Run
+                                                        </button>) : tableData.status === 'RUN_COMPLETED' ? (
+                                                            <div>
+                                                                <td>
+                                                                    <button class="button" onClick={() => viewReport(tableData.id)} >
+                                                                        View Generated Report
+                                                                    </button>
+                                                                </td><td>
+
+                                                                    <button class="button" onClick={() => editSchema(tableData.id)} >
+                                                                        Edit Schema
+                                                                    </button> </td></div>
+                                                        ) : (<div />
+                                                    )
                                                 )
                                             }
                                         </tr>

@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import LoadSpinner from './../LoadSpinner';
 import Sidebar from '../Sidebar';
-import { APP_SERVER_URL_PREFIX } from "./../constants.js";
+import ReactJson from 'react-json-view'
 
 
-function ReportHTML() {
+function SchemaEditor() {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [htmlContent, setHtmlContent] = useState('');
+    const [jsonContent, setJsonContent] = useState('');
     const [loading, setLoading] = useState(false);
-    const { state } = useLocation();
-    const { jobId } = state;
 
     useEffect(() => {
         setLoading(true);
-        const s3Url = APP_SERVER_URL_PREFIX + "/jobs/content/html/" + jobId; // Replace with your actual S3 URL
+        const s3Url = "https://affordablemr.s3.ap-south-1.amazonaws.com/3-werwe/schema.json"; // Replace with your actual S3 URL
 
         fetch(s3Url)
             .then(response => response.text())
-            .then(data => {setHtmlContent(data); setLoading(false);})
+            .then(data => {setJsonContent(data); console.log("JSONx", jsonContent ); setLoading(false);})
             .catch(error => { setLoading(false); console.error('Error fetching HTML:', error)});
     }, []);
 
@@ -28,11 +25,10 @@ function ReportHTML() {
             <Sidebar isOpen={true} />
             {loading ? <LoadSpinner /> : <div className={`content ${true ? 'shifted' : ''}`}>
                 <div>
-                    < div dangerouslySetInnerHTML={{ __html: htmlContent }
-                    } />
+                <ReactJson src={{jsonContent}} />
                 </div>
             </div>}
         </div>
     );
 }
-export default ReportHTML;
+export default SchemaEditor;

@@ -8,6 +8,7 @@ import About from './About';
 import Report from './reports/Report';
 import JobDetail from './jobdetail/JobDetail';
 import ReportHTML from './generated/ReportHTML';
+import SchemaEditor from './schemaedit/SchemaEditor';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/jobdetail" element={<JobDetail />} />
         <Route path="/reportgen" element={<ReportHTML />} />
+        <Route path="/schemaeditor" element={<SchemaEditor />} />
         <Route path="/logout" element={<Login />} />
       </Routes>
     </Router>
