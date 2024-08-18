@@ -8,7 +8,8 @@ import About from './About';
 import Report from './reports/Report';
 import JobDetail from './jobdetail/JobDetail';
 import ReportHTML from './generated/ReportHTML';
-import SchemaEditor from './schemaedit/SchemaEditor';
+import SchemaEditor from './editors/SchemaEditor';
+import PythonEditor from './editors/PythonEditor';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/jobdetail" element={<JobDetail />} />
         <Route path="/reportgen" element={<ReportHTML />} />
         <Route path="/schemaeditor" element={<SchemaEditor />} />
+        <Route path="/pythoneditor" element={<PythonEditor />} />
         <Route path="/logout" element={<Login />} />
       </Routes>
     </Router>

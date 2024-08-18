@@ -142,6 +142,10 @@ function JobDetail() {
         history('/schemaeditor', { state: { jobId: jobId } })
     }
 
+    const editCode = async (jobId) => {
+        history('/pythoneditor', { state: { jobId: jobId } })
+    }
+
     useEffect(() => {
         setLoading(true);
         refreshJobDetail(jobId);
@@ -175,12 +179,12 @@ function JobDetail() {
                                                 <h3>Job Name</h3>
                                                 <p>{tableData.jobName}</p>
                                             </td>
-                                            <td />
+
                                             <td>
                                                 <h3>Job Description</h3>
                                                 <p>{tableData.description}</p>
                                             </td>
-                                            <td />
+
                                             <td>
                                                 <h3>Job Status</h3>
                                                 <p>{tableData.status}</p>
@@ -191,19 +195,19 @@ function JobDetail() {
                                                 <h3>Created At</h3>
                                                 <p>{tableData.startedAt}</p>
                                             </td>
-                                            <td />
+
                                             <td>
                                                 <h3>Created By</h3>
                                                 <p>{tableData.createdBy}</p>
                                             </td>
-                                            <td />
+
                                             <td>
                                                 <h3>Platform</h3>
                                                 <p>{tableData.platform}</p>
                                             </td>
                                         </tr>
                                         <tr>
-                                        <hr />
+                                            <hr />
                                         </tr>
                                         <tr>
                                             {
@@ -218,13 +222,20 @@ function JobDetail() {
                                                             <div>
                                                                 <td>
                                                                     <button class="button" onClick={() => viewReport(tableData.id)} >
-                                                                        View Generated Report
+                                                                        Data Validation Report
                                                                     </button>
-                                                                </td><td>
-
+                                                                </td>
+                                                                <td>
                                                                     <button class="button" onClick={() => editSchema(tableData.id)} >
                                                                         Edit Schema
-                                                                    </button> </td></div>
+                                                                    </button> 
+                                                                </td>
+                                                                <td>
+                                                                    <button class="button" onClick={() => editCode(tableData.id)} >
+                                                                        Edit Validation Code
+                                                                    </button>
+                                                                </td>
+                                                            </div>
                                                         ) : (<div />
                                                     )
                                                 )
